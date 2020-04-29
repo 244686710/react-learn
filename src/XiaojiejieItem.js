@@ -1,19 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 
 class XiaojiejieItem extends Component {
     constructor(props) {
         super(props);
         this.handleClick = this.handleClick.bind(this);
     }
-    componentDidMount() {
-        axios.get('https://easy-mock.com/mock/5ea80718b3e240329310cc8c/nba/xiaojiejie').then(response => {
-            console.log(response)
-        }).catch((error) => {
-            console.log('axios 获取数据失败' + error)
-        })
-    }
+
     render() { 
         console.log('child-render')
         return ( 

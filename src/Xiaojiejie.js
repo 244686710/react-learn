@@ -1,7 +1,9 @@
 import React, { Component, Fragment, } from 'react';
 import './style.css'
 import XiaojiejieItem from './XiaojiejieItem';
-
+import axios from 'axios';
+import Boss from './Boss'
+import {CSSTransition, TransitionGroup } from 'react-transition-group'
 class Xiaojiejie extends Component{
     constructor(props) {
         super(props);
@@ -51,6 +53,13 @@ class Xiaojiejie extends Component{
             list: list
         })
     }
+    componentDidMount() {
+        axios.get('https://easy-mock.com/mock/5ea80718b3e240329310cc8c/nba/xiaojiejie').then(data => {
+            
+        }).catch((error) => {
+            console.log('axios 获取数据失败' + error)
+        })
+    }
     render() {
         console.log('----- render -----')
         return (
@@ -68,19 +77,30 @@ class Xiaojiejie extends Component{
                     <button onClick={this.handleAdd.bind(this)}>增加服务</button>
                 </div>
                 <ul>
-                    {
-                        this.state.list.map((item, index) => {
-                            return (
-                                <XiaojiejieItem
-                                    key={item + index}
-                                    content={item}
-                                    deleteItem={this.deleteItem}
-                                    index={index} 
-                                />
-                            )
-                        })
-                    }
+                    <TransitionGroup>
+                        {
+                            this.state.list.map((item, index) => {
+                                return (
+                                    <CSSTransition
+                                        timeout={500}
+                                        classNames="boss-text"
+                                        unmountOnExit
+                                        appear={true}
+                                        key={index+item}
+                                    >
+                                        <XiaojiejieItem
+                                            key={item + index}
+                                            content={item}
+                                            deleteItem={this.deleteItem}
+                                            index={index} 
+                                        />
+                                    </CSSTransition>
+                                )
+                            })
+                        }
+                    </TransitionGroup>
                 </ul>
+                <Boss></Boss>
             </Fragment>
         )
     }
